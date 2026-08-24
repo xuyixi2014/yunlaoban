@@ -395,8 +395,8 @@ table.grid tbody tr:nth-child(even):hover { background: #f2f6ff; }
   .toolbar .filter-item { flex: 1 1 100%; }
   .toolbar .filter-item input[type=text] { flex: 1; min-width: 0; }
   .notice-item { flex-wrap: wrap; }
-  .stat-card { padding: 14px 16px; }
-  .stat-value { font-size: 18px; overflow-wrap: break-word; line-height: 1.25; }
+  .stat-card { padding: 12px 14px; }
+  .stat-card .stat-value { font-size: clamp(11px, 3.4vw, 16px); overflow-wrap: break-word; line-height: 1.3; }
   .stat-card .stat-icon { font-size: 22px; }
   .breadcrumb { min-width: 0; }
 
@@ -425,3 +425,67 @@ table.grid tbody tr:nth-child(even):hover { background: #f2f6ff; }
   .login-card { width: 92vw; padding: 26px 22px 18px; }
   .two-line { flex-direction: column; }
 }
+
+/* ================= 微信红包弹窗 ================= */
+.rp-mask {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, .55); z-index: 300;
+  display: flex; align-items: center; justify-content: center; padding: 18px;
+  animation: rp-fade .25s ease;
+}
+@keyframes rp-fade { from { opacity: 0; } to { opacity: 1; } }
+.rp-card {
+  position: relative; width: 320px; max-width: 92vw; min-height: 380px; overflow: hidden;
+  border-radius: 18px; color: #ffe9b0; text-align: center; padding: 0;
+  background: linear-gradient(165deg, #ff5f4f 0%, #e6313a 45%, #c2102b 100%);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .45);
+  animation: rp-pop .45s cubic-bezier(.18,1.1,.3,1);
+}
+@keyframes rp-pop { from { transform: scale(.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.rp-close {
+  position: absolute; top: 10px; right: 12px; z-index: 5; width: 30px; height: 30px;
+  border: none; background: rgba(255,255,255,.16); color: #fff; border-radius: 50%;
+  font-size: 18px; line-height: 1; cursor: pointer;
+}
+.rp-close:hover { background: rgba(255,255,255,.3); }
+
+.rp-front { position: relative; min-height: 380px; padding: 30px 20px 40px; transition: opacity .4s, transform .4s; }
+.rp-card.opened .rp-front { opacity: 0; transform: scale(1.08); pointer-events: none; }
+.rp-pattern {
+  height: 60px; margin: -30px -20px 6px; background:
+    radial-gradient(circle at 50% 0, rgba(255,215,120,.35), transparent 60%),
+    repeating-linear-gradient(90deg, rgba(255,215,120,.15) 0 12px, transparent 12px 24px);
+  border-bottom: 1px solid rgba(255,215,120,.25);
+  display: flex; align-items: flex-end; justify-content: center;
+}
+.rp-pattern-dot { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,215,120,.85); margin-bottom: -17px; box-shadow: 0 0 0 4px rgba(255,215,120,.3); }
+.rp-logo { font-size: 54px; margin: 18px auto 4px; }
+.rp-msg { font-size: 26px; font-weight: 800; letter-spacing: 3px; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.25); margin-top: 8px; }
+.rp-sub { margin-top: 10px; font-size: 14px; color: #ffd98a; letter-spacing: 2px; opacity: .95; }
+.rp-open {
+  margin: 30px auto 0; width: 84px; height: 84px; border-radius: 50%; border: 6px solid #ffe9b0;
+  background: radial-gradient(circle at 50% 38%, #ffe9b0, #f6c453); color: #b71f2c;
+  font-size: 42px; font-weight: 900; cursor: pointer; display: block;
+  box-shadow: 0 8px 22px rgba(0,0,0,.28), inset 0 2px 6px rgba(255,255,255,.6);
+  animation: rp-pulse 1.8s ease-in-out infinite;
+}
+.rp-open:hover { transform: scale(1.06); }
+@keyframes rp-pulse { 0%,100% { box-shadow: 0 8px 22px rgba(0,0,0,.28), inset 0 2px 6px rgba(255,255,255,.6); } 50% { box-shadow: 0 0 0 12px rgba(255,233,176,.28), inset 0 2px 6px rgba(255,255,255,.6); } }
+
+.rp-content {
+  position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 10px; padding: 30px 22px; opacity: 0; transform: scale(.7); pointer-events: none;
+  transition: opacity .4s, transform .4s;
+}
+.rp-card.opened .rp-content { opacity: 1; transform: scale(1); pointer-events: auto; }
+.rp-content-ico { font-size: 56px; }
+.rp-content-head { font-size: 17px; color: #ffd98a; letter-spacing: 4px; }
+.rp-content-money { font-size: 46px; font-weight: 900; color: #fff; letter-spacing: 1px; text-shadow: 0 2px 6px rgba(0,0,0,.3); }
+.rp-content-tip { font-size: 15px; color: #ffe9b0; margin-bottom: 8px; }
+.btn-gold {
+  min-height: 44px; padding: 0 34px; border: none; border-radius: 24px; cursor: pointer;
+  font-size: 16px; font-weight: 700; color: #b71f2c;
+  background: linear-gradient(180deg, #ffefbf, #f6c453); box-shadow: 0 6px 16px rgba(0,0,0,.25);
+}
+.btn-gold:hover { filter: brightness(1.05); }
+.rp-skip { margin-top: 6px; color: rgba(255,233,176,.8); background: none; border: none; font-size: 13px; cursor: pointer; }
+.rp-skip:hover { color: #fff; }
