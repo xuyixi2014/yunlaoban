@@ -114,7 +114,7 @@
     cols.forEach(c => html += "<th" + (c.cls ? ' class="' + c.cls + '"' : "") + ">" + (c.label || "") + "</th>");
     html += "</tr></thead><tbody>";
     if (!slice.length) {
-      html += '<tr><td colspan="' + cols.length + '"><div class="empty"><span class="empty-ico">📭</span>暂无数据</div></td></tr>';
+      html += '<tr class="grid-empty"><td colspan="' + cols.length + '" class="grid-empty-cell"><div class="empty"><span class="empty-ico">📭</span>暂无数据</div></td></tr>';
     } else {
       slice.forEach((r, i) => {
         html += "<tr>";
@@ -124,7 +124,8 @@
           let clsAttr = "";
           let cls = (opts.rowClass && opts.rowClass(r)) || (c.cls || "");
           if (cls) clsAttr = ' class="' + cls + '"';
-          html += "<td" + clsAttr + ">" + (v == null ? "" : v) + "</td>";
+          const labelAttr = c.label ? ' data-label="' + esc(c.label) + '"' : "";
+          html += "<td" + clsAttr + labelAttr + ">" + (v == null ? "" : v) + "</td>";
         });
         html += "</tr>";
       });
@@ -217,11 +218,9 @@
       + helpItem("🔳", "扫码快速开销售单", "扫条码一键录入商品")
       + helpItem("📋", "销售单详细操作", "从建单到打印全流程")
       + '</div></div>';
-    h += '<div class="card card-pad"><div class="section-title">下载与关注</div><div class="dl-row">'
-      + dlBtn("电脑端 (Windows)", "download_win.png")
-      + dlBtn("手机 App", "qr_code_app.png")
-      + dlBtn("关注公众号", "qrcode_yxp.jpg")
-      + '</div></div>';
+    h += '<div class="card card-pad"><div class="section-title">扫码访问网站</div>'
+      + '<div class="qr-site"><img class="qr-site-img" src="assets/qr-website.svg" alt="扫码进入云老板网站"><span class="qr-site-tip">扫码进入云老板网站</span></div>'
+      + '<div class="dl-row">' + dlBtn("电脑端 (Windows)", "download_win.png") + '</div></div>';
     h += '</div></div>';
     return buildPage("工作台", h, acts);
   }
@@ -484,12 +483,12 @@
   function defaultLogs() {
     const d = new Date();
     return [
-      { time: d.getFullYear() + "-07-20 14:32", user: "杨总", mod: "销售", action: "新增销售单 XS20260720001", ip: "192.168.1.10" },
+      { time: d.getFullYear() + "-07-20 14:32", user: "陈总", mod: "销售", action: "新增销售单 XS20260720001", ip: "192.168.1.10" },
       { time: d.getFullYear() + "-07-20 11:05", user: "王小明", mod: "商品", action: "修改商品【心相印茶语丝享系列抽纸】售价", ip: "192.168.1.22" },
       { time: d.getFullYear() + "-07-19 16:40", user: "钱会计", mod: "资金", action: "确认收款单 SK20260719002", ip: "192.168.1.12" },
-      { time: d.getFullYear() + "-07-19 09:18", user: "杨总", mod: "设置", action: "修改系统参数【启用保质期】", ip: "192.168.1.10" },
+      { time: d.getFullYear() + "-07-19 09:18", user: "陈总", mod: "设置", action: "修改系统参数【启用保质期】", ip: "192.168.1.10" },
       { time: d.getFullYear() + "-07-18 17:22", user: "孙采购", mod: "采购", action: "新增采购单 CG20260719001", ip: "192.168.1.30" },
-      { time: d.getFullYear() + "-07-18 10:01", user: "杨总", mod: "登录", action: "登录系统", ip: "192.168.1.10" }
+      { time: d.getFullYear() + "-07-18 10:01", user: "陈总", mod: "登录", action: "登录系统", ip: "192.168.1.10" }
     ];
   }
 
@@ -679,7 +678,7 @@
     "message": function () { messageCenter(); },
     "buy": function () { toast("已跳转至续费页面"); },
     "expire-close": function () { $("#expire-bar").classList.add("hidden"); },
-    "profile": function () { promptModal("个人设置", '<div class="form-grid">' + fLabel("姓名", '<input value="杨总">') + fLabel("手机号", '<input value="137****7001">') + fLabel("角色", '<input value="老板" disabled>') + '</div><div class="info-note">修改后点击保存生效。</div>'); },
+    "profile": function () { promptModal("个人设置", '<div class="form-grid">' + fLabel("姓名", '<input value="陈总">') + fLabel("手机号", '<input value="137****7001">') + fLabel("角色", '<input value="老板" disabled>') + '</div><div class="info-note">修改后点击保存生效。</div>'); },
     "logout": function () { doLogout(); },
     "register": function () { toast("注册功能暂未开放，演示环境请直接登录"); },
     "forgot": function () { toast("演示环境：请直接使用任意账号登录"); },
@@ -805,9 +804,11 @@
 
   /* ================= 登录 ================= */
   function doLogin(user) {
-    state.user = user || $("#login-user").value.trim() || "杨总";
+    state.user = user || $("#login-user").value.trim() || "陈总";
     $("#app-view").style.display = "flex";
     $("#login-view").style.display = "none";
+    const w = document.querySelector(".user-welcome");
+    if (w) w.textContent = "欢迎您，" + state.user;
     render();
     toast("欢迎回来，" + state.user + "！");
   }
