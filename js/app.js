@@ -95,6 +95,16 @@
     $("#modal-mask").style.display = "none";
   }
 
+  /* 微信红包弹窗 */
+  function showRedPacket() {
+    $("#rp-mask").style.display = "flex";
+    $("#rp-card").classList.remove("opened");
+  }
+  function hideRedPacket() {
+    $("#rp-mask").style.display = "none";
+    $("#rp-card").classList.remove("opened");
+  }
+
   function renderGrid(route, cols, rows, opts) {
     opts = opts || {};
     const key = route;
@@ -689,6 +699,10 @@
     "grid-reset": function (el) { const st = state.page[el.dataset.route]; if (st) { st.fields = {}; st.page = 1; } clearFields(el.dataset.route); render(); },
     "modal-close": function () { closeModal(); },
     "mask-close": function () { closeModal(); },
+    "rp-open": function () { $("#rp-card").classList.add("opened"); },
+    "rp-close": function () { hideRedPacket(); },
+    "rp-card": function () { /* 阻止点击红包内部冒泡关闭 */ },
+    "rp-register": function () { hideRedPacket(); toast("注册成功，尽享宇少的一万元红包！", "success"); },
     "cat-filter": function (el) { state.categoryFilter = el.dataset.cat; render(); },
     /* 首页快捷 */
     "quick-sale": function () { navigate("sale"); },
@@ -803,14 +817,17 @@
   }
 
   /* ================= 登录 ================= */
-  function doLogin(user) {
+  function doLogin(user, opts) {
+    opts = opts || {};
     state.user = user || $("#login-user").value.trim() || "陈总";
+    try { sessionStorage.setItem("yxp_user", state.user); } catch (e) {}
     $("#app-view").style.display = "flex";
     $("#login-view").style.display = "none";
     const w = document.querySelector(".user-welcome");
     if (w) w.textContent = "欢迎您，" + state.user;
     render();
     toast("欢迎回来，" + state.user + "！");
+    if (opts.showPacket) setTimeout(showRedPacket, 650);
   }
   function doLogout() {
     $("#app-view").style.display = "none";
@@ -822,7 +839,7 @@
   /* ================= 初始化 ================= */
   document.addEventListener("DOMContentLoaded", function () {
     renderMenu();
-    $("#login-form").addEventListener("submit", function (e) { e.preventDefault(); doLogin(); });
+    $("#login-form").addEventListener("submit", function (e) { e.preventDefault(); doLogin(undefined, { showPacket: true }); });
     // 全局事件委托
     document.addEventListener("click", function (e) {
       const el = e.target.closest("[data-action]");
