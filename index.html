@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="云老板">
+  <meta name="theme-color" content="#2f6fed">
+  <title>云老板 - 进销存管理软件</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="renderer" content="webkit">
+  <link rel="icon" href="assets/logo.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- ============ 登录页 ============ -->
+  <div id="login-view" class="login-view">
+    <div class="login-bg"></div>
+    <div class="login-card">
+      <div class="login-logo">
+        <img class="brand-badge brand-badge-lg" src="assets/logo.svg" alt="云老板">
+        <span class="login-title">云老板 · 进销存管理软件</span>
+      </div>
+      <div class="login-sub">管销售 · 管采购 · 管库存 · 管资金，中小企业生意好帮手</div>
+      <form id="login-form" class="login-form" autocomplete="off">
+        <div class="field">
+          <label>账套账号</label>
+          <input type="text" id="login-user" placeholder="请输入账号" value="demo">
+        </div>
+        <div class="field">
+          <label>密码</label>
+          <input type="password" id="login-pass" placeholder="请输入密码" value="123456">
+        </div>
+        <div class="field field-check">
+          <label><input type="checkbox" id="login-remember" checked> 记住账号</label>
+          <a href="#" class="link" data-action="forgot">忘记密码？</a>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">登 录</button>
+        <div class="login-tip">演示环境：任意账号密码均可登录，体验完整业务流程</div>
+      </form>
+      <div class="login-footer">
+        <a href="#" data-action="register">免费注册</a>
+        <span class="dot">·</span>
+        <a href="#" data-action="download">下载客户端</a>
+        <span class="dot">·</span>
+        <a href="#" data-action="guide">操作指南</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 主应用 ============ -->
+  <div id="app-view" class="app-view" style="display:none">
+    <!-- 顶部工具栏 -->
+    <header class="top-toolbar">
+      <button class="menu-toggle" data-action="toggle-sidebar" title="菜单" aria-label="打开菜单">☰</button>
+      <div class="logo-box">
+        <span class="brand-word"><img class="brand-badge" src="assets/logo.svg" alt="云老板"><span class="brand-name">云老板</span></span>
+      </div>
+      <div class="expire-bar" id="expire-bar">
+        <span class="expire-font">您的产品服务还有</span>
+        <img class="expire-icon" src="assets/ExpireRemindTime.png" alt="">
+        <span class="expire-days">28</span>
+        <span class="expire-font">天到期，为不影响使用，请及时</span>
+        <a class="expire-btn" href="#" data-action="buy">立即续费</a>
+        <span class="expire-close" data-action="expire-close" title="关闭">×</span>
+      </div>
+      <div class="top-right">
+        <span class="company-name">苏家屯宇少科技有限公司</span>
+        <span class="badge-trial">体验账套</span>
+        <div class="topmenuitem hide-sm" data-action="refresh" title="刷新">刷新</div>
+        <div class="topmenuitem dropdown hide-sm" data-action="download" title="下载">
+          下载软件
+          <span class="caret">▾</span>
+          <div class="dropdown-menu">
+            <a href="#" data-action="download-win">电脑端 (Windows)</a>
+            <a href="#" data-action="download-app">手机 App</a>
+            <a href="#" data-action="download-mac">Mac 版</a>
+          </div>
+        </div>
+        <div class="topmenuitem dropdown hide-sm" data-action="qr" title="扫码关注">扫码下载
+          <span class="caret">▾</span>
+          <div class="dropdown-menu dropdown-qr">
+            <div class="qr-box">
+              <img src="assets/qr_code_app.png" class="qr-img" alt="扫码下载">
+              <span>扫码下载安卓App</span>
+            </div>
+            <div class="qr-box">
+              <img src="assets/qrcode_yxp.jpg" class="qr-img" alt="关注公众号">
+              <span>关注云老板公众号</span>
+            </div>
+          </div>
+        </div>
+        <div class="topmenuitem hide-sm" data-action="service" title="客服">客服</div>
+        <div class="topmenuitem" data-action="message" title="消息中心"><span class="msg-ico only-mobile">🔔</span><span class="msg-txt hide-sm">消息中心</span><span class="dot-count" id="msg-count">3</span></div>
+        <div class="topmenuitem dropdown" data-action="user" title="个人设置">
+          <span class="user-avatar only-mobile">👤</span>
+          <span class="user-welcome">欢迎您，杨总</span>
+          <span class="caret">▾</span>
+          <div class="dropdown-menu">
+            <a href="#" data-action="profile">个人设置</a>
+            <a href="#" data-action="logout">退出登录</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 主区域：左侧菜单 + 内容 -->
+    <div class="main-wrap">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-head">
+          <span class="sidebar-title">功能菜单</span>
+          <button class="sidebar-close" data-action="close-sidebar" aria-label="关闭菜单">×</button>
+        </div>
+        <nav class="menu-tree" id="menu-tree"></nav>
+      </aside>
+      <section class="content" id="content">
+        <div class="content-head">
+          <span class="breadcrumb" id="breadcrumb">首页</span>
+          <div class="content-actions" id="content-actions"></div>
+        </div>
+        <div class="content-body" id="content-body"></div>
+      </section>
+    </div>
+    <div class="sidebar-overlay" id="sidebar-overlay" data-action="close-sidebar"></div>
+  </div>
+
+  <!-- 全局弹窗 -->
+  <div class="modal-mask" id="modal-mask" style="display:none" data-action="mask-close"></div>
+  <div class="modal" id="modal" style="display:none">
+    <div class="modal-head">
+      <span id="modal-title">标题</span>
+      <span class="modal-close" data-action="modal-close">×</span>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-foot" id="modal-foot"></div>
+  </div>
+
+  <!-- 轻提示 -->
+  <div class="toast" id="toast" style="display:none"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
