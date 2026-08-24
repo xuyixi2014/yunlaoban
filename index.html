@@ -136,6 +136,28 @@
   <!-- 轻提示 -->
   <div class="toast" id="toast" style="display:none"></div>
 
+  <!-- 微信红包弹窗（登录后） -->
+  <div class="rp-mask" id="rp-mask" style="display:none" data-action="rp-close">
+    <div class="rp-card" id="rp-card" data-action="rp-card">
+      <button class="rp-close" data-action="rp-close" title="关闭">×</button>
+      <div class="rp-front" id="rp-front">
+        <div class="rp-pattern"><span class="rp-pattern-dot"></span></div>
+        <div class="rp-logo">🧧</div>
+        <div class="rp-msg">宇少给你发红包</div>
+        <div class="rp-sub">恭喜发财 · 大吉大利</div>
+        <button class="rp-open" data-action="rp-open">开</button>
+      </div>
+      <div class="rp-content" id="rp-content">
+        <div class="rp-content-ico">🎁</div>
+        <div class="rp-content-head">恭喜获得</div>
+        <div class="rp-content-money">¥10,000</div>
+        <div class="rp-content-tip">注册即可享受宇少的一万元红包</div>
+        <button class="btn btn-gold" data-action="rp-register">立即注册</button>
+        <button class="rp-skip" data-action="rp-close">略过</button>
+      </div>
+    </div>
+  </div>
+
   <script src="js/data.js"></script>
   <script src="js/app.js"></script>
 </body>
