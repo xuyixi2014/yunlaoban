@@ -73,7 +73,7 @@
 
   /* ---------- 职员 ---------- */
   const STAFF = [
-    { id: "U0001", name: "杨总", role: "老板", phone: "13700137001", commission: 0, status: "在职" },
+    { id: "U0001", name: "陈总", role: "老板", phone: "13700137001", commission: 0, status: "在职" },
     { id: "U0002", name: "王小明", role: "销售员", phone: "13700137002", commission: 0.02, status: "在职" },
     { id: "U0003", name: "李小红", role: "销售员", phone: "13700137003", commission: 0.015, status: "在职" },
     { id: "U0004", name: "赵大厨", role: "仓管员", phone: "13700137004", commission: 0, status: "在职" },
